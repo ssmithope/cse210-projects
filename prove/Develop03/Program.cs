@@ -1,38 +1,38 @@
-// I put a comment to the default program which is "Hello Develop03 World!".
+// I still keep the default program at the bottom by a comment
+// I wanted to exceed the requirement but I failed multiple times.
 using System;
+using System.Collections.Generic;
 
 class Program
 {
     static void Main(string[] args)
     {
-        //Console.WriteLine("Hello Develop03 World!");
-        
-       var reference1 = new Reference("John", 3, 16);
-        var scriptureText1 = "For God so loved the world...";
-        var scripture1 = new Scripture(reference1, scriptureText1);
+        Scripture scripture = new Scripture("John 3:16", "For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life.");
+        scripture.Display();
 
-        var reference2 = new Reference("Proverbs", 3, 5);
-        var scriptureText2 = "Trust in the LORD with all your heart...";
-        var scripture2 = new Scripture(reference2, scriptureText2);
-
-        var scriptures = new List<Scripture> { scripture1, scripture2 };
-
-        foreach (var scripture in scriptures)
+        while (true)
         {
-            while (!scripture.IsCompletelyHidden())
-            {
-                scripture.GetDisplayText();
-                Console.WriteLine("Press Enter to hide more words or type 'quit' to exit:");
-                var input = Console.ReadLine();
-                if (input.ToLower() == "quit")
-                    break;
+            Console.WriteLine("\nPress enter to hide a word or type 'quit' to exit.");
+            string input = Console.ReadLine();
 
-                scripture.HideRandomWords(3);
-                Console.Clear();
-            }
+            if (input.ToLower() == "quit")
+                break;
+
+            scripture.HideRandomWord();
+            Console.Clear();
+            scripture.Display();
         }
-
-        Console.WriteLine("All words are hidden. Program ended.");
+        
     }
- 
-}
+
+}    
+// using System;
+// using System.Collections.Generic;
+
+// class Program
+// {
+//     static void Main(string[] args)
+//     {
+//         Console.WriteLine("Hello Develop03 World!");
+//     }
+// }

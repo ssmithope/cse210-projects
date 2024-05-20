@@ -1,48 +1,30 @@
-// Scripture class stores the entire scripture,
-// The "******" will display hidden words.
+// A scripture class created.
 class Scripture
 {
-    private List<Word> words = new List<Word>();
-    private Reference reference;
+    private Reference _reference;
+    private List<Word> _words;
 
-    public Scripture(Reference reference, string text)
+    public Scripture(string reference, string text)
     {
-        this.reference = reference;
-        // Split the text into words and create Word objects.
-        words = text.Split(' ').Select(word => new Word(word)).ToList();
+        _reference = new Reference(reference);
+        _words = new List<Word>();
+
+        foreach (string word in text.Split(' '))
+            _words.Add(new Word(word));
     }
 
-    public void GetDisplayText()
+    public void Display()
     {
-        Console.WriteLine(reference.GetDisplayText());
-        foreach (var word in words)
-        {
-            if (word.IsHidden)
-                Console.Write("***** ");
-            else
-                Console.Write($"{word.Text} ");
-        }
+        Console.WriteLine(_reference.Text);
+        foreach (Word word in _words)
+            Console.Write(word.Display() + " ");
         Console.WriteLine();
     }
 
-    public void HideRandomWords(int numberToHide)
+    public void HideRandomWord()
     {
-        var random = new Random();
-        var hiddenCount = 0;
-        while (hiddenCount < numberToHide)
-        {
-            var index = random.Next(words.Count);
-            if (!words[index].IsHidden)
-            {
-                words[index].Hide();
-                hiddenCount++;
-            }
-        }
-    }
-
-    public bool IsCompletelyHidden()
-    {
-        return words.All(word => word.IsHidden);
+        Random random = new Random();
+        int index = random.Next(_words.Count);
+        _words[index].Hide();
     }
 }
-

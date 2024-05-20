@@ -1,26 +1,25 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
-// Word class display.
+// A word class created.
 class Word
 {
-    public string Text { get; private set; }
-    public bool IsHidden { get; private set; }
+    private string _text;
+    private bool _isHidden;
 
     public Word(string text)
     {
-        Text = text;
-        IsHidden = false;
+        _text = text;
+        _isHidden = false;
+    }
+
+    public string Display()
+    {
+        if (_isHidden)
+            return new String('_', _text.Length);
+        else
+            return _text;
     }
 
     public void Hide()
     {
-        IsHidden = true;
-    }
-
-    public void Show()
-    {
-        IsHidden = false;
+        _isHidden = true;
     }
 }
