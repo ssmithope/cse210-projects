@@ -1,0 +1,17 @@
+[
+  {
+    "Name": "Run a Marathon",
+    "Description": "Complete a marathon",
+    "Points": 1000
+  },
+  {
+    "Name": "Read Scriptures",
+    "Description": "Read scriptures daily",
+    "Points": 100
+  },
+  {
+    "Name": "Attend Temple",
+    "Description": "Go to the temple",
+    "Points": 50
+  }
+]
