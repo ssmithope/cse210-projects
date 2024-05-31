@@ -1,4 +1,6 @@
 using System;
+// Class program.
+// I only put a comment on the default program and put it at the bottom.
 class Program
 {
     static void Main(string[] args)
