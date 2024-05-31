@@ -1,3 +1,4 @@
+using System;
 // The default program was commented bellow.
 // A new class has been created as "User.cs".
 class Program
@@ -45,16 +46,75 @@ class Program
 }
 
 
+public class QuestTracker
+{
+    private List<Goal> _goals;
+    private int _totalScore;
+
+    public QuestTracker()
+    {
+        _goals = new List<Goal>();
+        _totalScore = 0;
+    }
+
+    public void AddGoal(Goal goal)
+    {
+        _goals.Add(goal);
+    }
+
+    public void RecordGoalEvent(string goalName)
+    {
+        var goal = _goals.Find(g => g._shortName == goalName);
+        if (goal != null)
+        {
+            goal.RecordEvent();
+            _totalScore += goal._points;
+        }
+    }
+
+    public void DisplayGoals()
+    {
+        foreach (var goal in _goals)
+        {
+            Console.WriteLine($"{goal.Name} - Status: {goal.GetStatus()}");
+        }
+    }
+
+    public void DisplayScore()
+    {
+        Console.WriteLine($"Total Score: {_totalScore}");
+    }
+
+    public void SaveProgress(string filePath)
+    {
+        using (Stream stream = File.Open(filePath, FileMode.Create))
+        {
+            BinaryFormatter formatter = new BinaryFormatter();
+            formatter.Serialize(stream, _goals);
+        }
+    }
+
+    public void LoadProgress(string filePath)
+    {
+        using (Stream stream = File.Open(filePath, FileMode.Open))
+        {
+            BinaryFormatter formatter = new BinaryFormatter();
+            _goals = (List<Goal>)formatter.Deserialize(stream);
+        }
+    }
+}
 
 
 
-// //using System;
+// // //using System;
 
-// // class Program
-// // {
-// //     static void Main(string[] args)
-// //     {
-// //         Console.WriteLine("Hello Develop05 World!");
-// //     }
-// // }
+// // // class Program
+// // // {
+// // //     static void Main(string[] args)
+// // //     {
+// // //         Console.WriteLine("Hello Develop05 World!");
+// // //     }
+// // // }
+
+
 
