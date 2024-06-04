@@ -1,73 +1,60 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Text.Json;
+
+// Goal Manager class.
 public class GoalManager
 {
-    private List<Goal> _goals;
-    private User _user;
+    private List<Goal> _goals = new List<Goal>();
+    private int _totalPoints;
 
-    public GoalManager(User user)
-    {
-        _goals = new List<Goal>();
-        _user = user;
-    }
-
-    public void Start()
-    {
-        // Start logic.
-    }
-
-    public void DisplayPlayerInfo()
-    {
-        Console.WriteLine($"User: {_user.Name}, Score: {_user.Score}, Level: {_user.Level}");
-        foreach (var goal in _goals)
-        {
-            Console.WriteLine(goal.GetStringRepresentation());
-        }
-    }
-
-    public void ListGoalNames()
-    {
-        foreach (var goal in _goals)
-        {
-            Console.WriteLine(goal.GetName());
-        }
-    }
-
-    public void ListGoalDetails()
-    {
-        foreach (var goal in _goals)
-        {
-            Console.WriteLine(goal.GetDetailsString());
-        }
-    }
-
-    public void CreateGoal(Goal goal)
+    // Method to add a goal to the list.
+    public void AddGoal(Goal goal)
     {
         _goals.Add(goal);
     }
 
+    // Method to record an event by goal name.
     public void RecordEvent(string goalName)
     {
         foreach (var goal in _goals)
         {
-            if (goal.GetName() == goalName && !goal.IsComplete())
+            if (goal.Name == goalName)
             {
-                int points = goal.RecordEvent();
-                if (points > 0)
-                {
-                    _user.AddPoints(points);
-                }
+                goal.RecordEvent();
+                _totalPoints += goal.Points;
+                break;
             }
         }
     }
 
-    public void SaveGoals()
+    // Method to display all goals.
+    public void DisplayGoals()
     {
-        // I have to add something here. But I am unable to get it done.
-        
+        foreach (var goal in _goals)
+        {
+            Console.WriteLine(goal.Display());
+        }
     }
 
-    public void LoadGoals()
+    // Method to display the total score.
+    public void DisplayScore()
     {
-        // I will have to figure out, what's going one with my installation.
+        Console.WriteLine($"Total Score: {_totalPoints}");
+    }
+
+    // Method to save the progress to a file using JSON serialization.
+    public void SaveProgress(string filePath)
+    {
+        string jsonString = JsonSerializer.Serialize(this, new JsonSerializerOptions { WriteIndented = true });
+        File.WriteAllText(filePath, jsonString);
+    }
+
+    // Method to load the progress from a file using JSON deserialization.
+    public static GoalManager LoadProgress(string filePath)
+    {
+        string jsonString = File.ReadAllText(filePath);
+        return JsonSerializer.Deserialize<GoalManager>(jsonString);
     }
 }
-

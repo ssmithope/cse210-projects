@@ -1,36 +1,19 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 
+// Goal class.
 public abstract class Goal
 {
-    protected string _shortName;
-    protected string _description;
+    protected string _name;
     protected int _points;
+    protected bool _isComplete;
 
-    public Goal(string name, string desc, int pts)
-    {
-        _shortName = name;
-        _description = desc;
-        _points = pts;
-    }
+    public string Name { get { return _name; } set { _name = value; } }
+    public int Points { get { return _points; } set { _points = value; } }
+    public bool IsComplete { get { return _isComplete; } set { _isComplete = value; } }
 
-    public string GetName()
-    {
-        return _shortName;
-    }
-
-    public string GetDescription()
-    {
-        return _description;
-    }
-
-    public int GetPoints()
-    {
-        return _points;
-    }
-
-    public abstract bool IsComplete();
-    public abstract string GetDetailsString();
-    public abstract int RecordEvent();
-    public abstract string GetStringRepresentation();
+    public abstract void RecordEvent();
+    public abstract string Display();
 }

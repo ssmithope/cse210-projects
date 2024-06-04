@@ -1,26 +1,20 @@
+// Eternal goal class.
 public class EternalGoal : Goal
 {
-    public EternalGoal(string name, string desc, int pts) : base(name, desc, pts)
+    public EternalGoal(string name)
     {
+        _name = name;
+        _points = 0;
+        _isComplete = false;
     }
 
-    public override int RecordEvent()
+    public override void RecordEvent()
     {
-        return GetPoints();
+        _points += 100; // Each event adds 100 points.
     }
 
-    public override bool IsComplete()
+    public override string Display()
     {
-        return false;
-    }
-
-    public override string GetDetailsString()
-    {
-        return $"EternalGoal: {GetName()}, Description: {GetDescription()}, Points: {GetPoints()}";
-    }
-
-    public override string GetStringRepresentation()
-    {
-        return GetDetailsString();
+        return $"[~] {_name} - {_points} points";
     }
 }

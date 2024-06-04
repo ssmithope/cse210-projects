@@ -1,31 +1,22 @@
+// Simple goal class.
 public class SimpleGoal : Goal
 {
-    private bool _isComplete;
-
-    public SimpleGoal(string name, string desc, int pts) : base(name, desc, pts)
+    public SimpleGoal(string name, int points)
     {
+        _name = name;
+        _points = points;
         _isComplete = false;
     }
 
-    public override int RecordEvent()
+    public override void RecordEvent()
     {
         _isComplete = true;
-        return GetPoints();
+        _points += 1000; // Assuming completing a simple goal gives 1000 points
     }
 
-    public override bool IsComplete()
+    public override string Display()
     {
-        return _isComplete;
-    }
-
-    public override string GetDetailsString()
-    {
-        return $"SimpleGoal: {GetName()}, Description: {GetDescription()}, Points: {GetPoints()}, Completed: {_isComplete}";
-    }
-
-    public override string GetStringRepresentation()
-    {
-        return GetDetailsString();
+        return _isComplete ? $"[X] {_name} - {_points} points" : $"[ ] {_name} - {_points} points";
     }
 }
 
