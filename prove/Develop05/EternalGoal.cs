@@ -1,20 +1,15 @@
 // Eternal goal class.
 public class EternalGoal : Goal
 {
-    public EternalGoal(string name)
+    public EternalGoal(string name, int pointsPerRecord) : base(name, pointsPerRecord) {}
+
+    public override void RecordProgress()
     {
-        _name = name;
-        _points = 0;
-        _isComplete = false;
+        Console.WriteLine($"Goal '{_name}' recorded. Earned {_points} points.");
     }
 
-    public override void RecordEvent()
+    public override void Display()
     {
-        _points += 100; // Each event adds 100 points.
-    }
-
-    public override string Display()
-    {
-        return $"[~] {_name} - {_points} points";
+        Console.WriteLine($"{_name} - Eternal Goal - Points per Record: {_points}");
     }
 }

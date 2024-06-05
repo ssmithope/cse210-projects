@@ -1,24 +1,19 @@
 // Simple goal class.
 public class SimpleGoal : Goal
 {
-    public SimpleGoal(string name, int points)
+    public SimpleGoal(string name, int points) : base(name, points) {}
+
+    public override void RecordProgress()
     {
-        _name = name;
-        _points = points;
-        _isComplete = false;
+        if (!_isComplete)
+        {
+            _isComplete = true;
+            Console.WriteLine($"Goal '{_name}' completed!");
+        }
     }
 
-    public override void RecordEvent()
+    public override void Display()
     {
-        _isComplete = true;
-        _points += 1000; // Assuming completing a simple goal gives 1000 points
-    }
-
-    public override string Display()
-    {
-        return _isComplete ? $"[X] {_name} - {_points} points" : $"[ ] {_name} - {_points} points";
+        Console.WriteLine($"{_name} - Complete: {(_isComplete ? "[X]" : "[ ]")} - Points: {_points}");
     }
 }
-
-
-

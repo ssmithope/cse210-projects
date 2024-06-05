@@ -1,33 +1,34 @@
-// Checklist goal class.
+// Check list goal class.
 public class ChecklistGoal : Goal
 {
-    private int _targetCount;
-    private int _currentCount;
-    private int _bonusPoints;
+    private int _progress;
+    private readonly int _goalCount;
+    private readonly int _bonusPoints;
 
-    public ChecklistGoal(string name, int targetCount, int bonusPoints)
+    public ChecklistGoal(string name, int pointsPerRecord, int goalCount, int bonusPoints) : base(name, pointsPerRecord)
     {
-        _name = name;
-        _targetCount = targetCount;
+        _goalCount = goalCount;
         _bonusPoints = bonusPoints;
-        _currentCount = 0;
-        _points = 0;
-        _isComplete = false;
+        _progress = 0;
     }
 
-    public override void RecordEvent()
+    public override void RecordProgress()
     {
-        _currentCount++;
-        _points += 50; // Assuming each event adds 50 points.
-        if (_currentCount == _targetCount)
+        _progress++;
+        if (_progress >= _goalCount && !_isComplete)
         {
-            _points += _bonusPoints;
             _isComplete = true;
+            _points += _bonusPoints;
+            Console.WriteLine($"Goal '{_name}' completed with bonus!");
+        }
+        else
+        {
+            Console.WriteLine($"Goal '{_name}' progress recorded. {_progress}/{_goalCount} times completed.");
         }
     }
 
-    public override string Display()
+    public override void Display()
     {
-        return _isComplete ? $"[X] {_name} - Completed {_currentCount}/{_targetCount} times" : $"[ ] {_name} - Completed {_currentCount}/{_targetCount} times";
+        Console.WriteLine($"{_name} - Completed {_progress}/{_goalCount} times - Points per Record: {_points} - Bonus: {_bonusPoints}");
     }
 }

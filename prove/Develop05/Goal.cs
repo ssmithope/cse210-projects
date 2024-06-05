@@ -10,10 +10,16 @@ public abstract class Goal
     protected int _points;
     protected bool _isComplete;
 
-    public string Name { get { return _name; } set { _name = value; } }
-    public int Points { get { return _points; } set { _points = value; } }
-    public bool IsComplete { get { return _isComplete; } set { _isComplete = value; } }
+    protected Goal(string name, int points)
+    {
+        _name = name;
+        _points = points;
+        _isComplete = false;
+    }
 
-    public abstract void RecordEvent();
-    public abstract string Display();
+    public abstract void RecordProgress();
+    public abstract void Display();
+    public string Name => _name;
+    public int Points => _points;
+    public bool IsComplete => _isComplete;
 }

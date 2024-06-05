@@ -3,55 +3,60 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
 
-// Goal Manager class.
+// Manager goal class.
 public class GoalManager
 {
     private List<Goal> _goals = new List<Goal>();
     private int _totalPoints;
 
-    // Method to add a goal to the list.
+    public GoalManager()
+    {
+        _goals = new List<Goal>();
+        _totalPoints = 0;
+    }
+
     public void AddGoal(Goal goal)
     {
         _goals.Add(goal);
+        Console.WriteLine($"Goal '{goal.Name}' added.");
     }
 
-    // Method to record an event by goal name.
-    public void RecordEvent(string goalName)
+    public void RecordGoal(string goalName)
     {
         foreach (var goal in _goals)
         {
-            if (goal.Name == goalName)
+            if (goal.Name.Equals(goalName, StringComparison.OrdinalIgnoreCase) && !goal.IsComplete)
             {
-                goal.RecordEvent();
+                goal.RecordProgress();
                 _totalPoints += goal.Points;
-                break;
+                Console.WriteLine($"Progress recorded for {goalName}. Total points: {_totalPoints}");
+                return;
             }
         }
+        Console.WriteLine("Goal not found.");
     }
 
-    // Method to display all goals.
     public void DisplayGoals()
     {
         foreach (var goal in _goals)
         {
-            Console.WriteLine(goal.Display());
+            goal.Display();
         }
     }
 
-    // Method to display the total score.
     public void DisplayScore()
     {
-        Console.WriteLine($"Total Score: {_totalPoints}");
+        Console.WriteLine($"Total Points: {_totalPoints}");
     }
 
-    // Method to save the progress to a file using JSON serialization.
     public void SaveProgress(string filePath)
     {
-        string jsonString = JsonSerializer.Serialize(this, new JsonSerializerOptions { WriteIndented = true });
+        var options = new JsonSerializerOptions { WriteIndented = true };
+        string jsonString = JsonSerializer.Serialize(this, options);
         File.WriteAllText(filePath, jsonString);
+        Console.WriteLine("Progress saved successfully.");
     }
 
-    // Method to load the progress from a file using JSON deserialization.
     public static GoalManager LoadProgress(string filePath)
     {
         string jsonString = File.ReadAllText(filePath);
